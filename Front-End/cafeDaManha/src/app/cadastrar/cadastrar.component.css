@@ -1,0 +1,12 @@
+#img-bg{
+  background-image: url('../../assets/img/cafedamanha2.jpg');
+  min-height: 939px;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.mr-4{
+  margin-right: 10px
+}
