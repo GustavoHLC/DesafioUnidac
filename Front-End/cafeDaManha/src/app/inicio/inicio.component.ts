@@ -14,16 +14,16 @@ import { PostagemService } from '../service/postagem.service';
 export class InicioComponent implements OnInit {
 
   postagem: Postagem = new Postagem();
-  listaPostagens: Postagem[];
+  listaPostagem: Postagem[];
   usuario: Usuario = new Usuario();
-  idUser = environment.id;
-  key = 'data';
-  reverse = true;
+  idUsuario = environment.id;
+
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private postagemService: PostagemService
+    private postagemService: PostagemService,
+    private auth: AuthService
   ) { }
 
   ngOnInit(){
@@ -31,17 +31,26 @@ export class InicioComponent implements OnInit {
       alert("sua seção expirou, faça login novamente.")
       this.router.navigate(['/entrar'])
     }
+    this.auth.refreshToken()
+    this.buscarPostagens()
   }
 
-  getAllPostagens() {
-    this.postagemService.getAllPostagens().subscribe((resp: Postagem[])=> {
-      this.listaPostagens = resp
-
+  buscarPostagens(){
+    this.postagemService.getAllPostagens().subscribe((resp: Postagem[]) => {
+      this.listaPostagem = resp
+      console.log(this.listaPostagem)
     })
   }
 
+  findUsuarioById(){
+    this.auth.getUsuarioById(this.idUsuario).subscribe((resp: Usuario)=> {
+      this.usuario = resp
+    })
+  }
+
+
   publicar(){
-    this.usuario.id = this.idUser;
+    this.usuario.id = this.idUsuario;
     this.postagem.usuario = this.usuario;
 
     this.postagemService
@@ -50,7 +59,7 @@ export class InicioComponent implements OnInit {
         this.postagem = resp;
         alert('Postagem feita com sucesso!');
         this.postagem = new Postagem();
-        this.getAllPostagens();
+        this.buscarPostagens();
       });
   }
 }

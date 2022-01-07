@@ -6,5 +6,5 @@ export class Usuario{
   public cpf: string
   public senha: string
   public foto: string
-  public postagem: Postagem
+  public postagem: Postagem[]
 }

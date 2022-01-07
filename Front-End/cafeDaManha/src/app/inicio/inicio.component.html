@@ -13,7 +13,7 @@
           <button class="btn btn-light mr-6 mt-5" data-bs-toggle="modal" data-bs-target="#novaPostagem">
             Nova Postagem
           </button>
-          <a class="btn btn-outline-light mt-5" href="#postagens">Ver Postagens</a>
+          <a class="btn btn-outline-light mt-5 mr-6" href="#postagens">Ver Postagens</a>
         </div>
       </div>
     </div>
@@ -23,51 +23,75 @@
   </div>
 </div>
 
-<div class="container mb-5 mt-8" id="postagens">
-  <ul class="nav nav-pills mt-5 mb-3 d-flex justify-content-center" id="pills-tab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="pills-todasPostagens-tab" data-bs-toggle="pill"
-        data-bs-target="#pills-todasPostagens" type="button" role="tab" aria-controls="nav-todasPostagens"
-        aria-selected="true">Todas as postagens</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pills-minhasPostagens-tab" data-bs-toggle="pill"
-        data-bs-target="#pills-minhasPostagens" type="button" role="tab" aria-controls="pills-minhasPostagens"
-        aria-selected="false">Minhas Postagens</button>
-    </li>
-  </ul>
-  <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-todasPostagens" role="tabpanel"
-      aria-labelledby="pills-todasPostagens-tab">
-      Todas as postagens
+<div class="container mb-5 mt-5" id="postagens">
+  <nav>
+    <div class="nav nav-tabs d-flex justify-content-center" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active text-secondary font-weight-bold" id="nav-todasPostagens-nav" data-toggle="tab" href="#todasPostagens" role="tab" aria-controls="todasPostagens" aria-selected="true">Todas as Postagens</a>
+      <a (click)='findUsuarioById()' class="nav-item nav-link text-secondary font-weight-bold" id="nav-minhasPostagens-nav" data-toggle="tab" href="#minhasPostagens" role="tab" aria-controls="minhasPostagens" aria-selected="false">Minhas Postagens</a>
     </div>
-    <div class="tab-pane fade" id="pills-minhasPostagens" role="tabpanel" aria-labelledby="pills-minhasPostagens-tab">
-      Minhas Postagens
-    </div>
-  </div>
-
-  <div class="modal fade" id="novaPostagem" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="TituloModalCentralizado">Novo item!</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="item">item</label>
-            <textarea name="item" id="item" class="form-control" rows="1" [(ngModel)]="postagem.item"></textarea>
+</nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="todasPostagens" role="tabpanel" aria-labelledby="nav-todasPostagens-tab">
+      <div class="mt-3 d-flex flex-wrap justify-content-around">
+        <div class="postagem" *ngFor='let prod of listaPostagem'>
+          <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="card-title m-2">Eu vou levar</h5>
+              <p class="card-text mt-3 mb-5">{{prod.item}}</p>
+            </div>
+            <div>
+              <p class="card-text"><small class="text-muted">{{prod.data | date: 'dd/MM/yyyy'}} às {{prod.data | date:
+                  'HH:mm'}}</small></p>
+              <p class="card-text"><small class="text-muted">Por: {{prod.usuario.nome}}</small></p>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            Cancelar
-          </button>
-          <button type="button" class="btn btn-success" (click)="publicar()" data-bs-dismiss="modal">
-            Publicar
-          </button>
         </div>
       </div>
     </div>
   </div>
+  <div class="tab-pane fade" id="minhasPostagens" role="tabpanel" aria-labelledby="nav-minhasPostagens-tab">
+    <div class="card-columns">
+      <div class="card text-center" *ngFor='let prod of usuario.postagem'>
+        <div class="card-body">
+          <h5 class="card-title m-0">Estou levando</h5>
+          <p class="card-text mt-3">{{prod.item}}</p>
+          <p>Postado por: {{usuario.nome}}</p>
+          <p class="card-text"><small class="text-muted">
+              {{prod.data | date: 'dd/MM/yyyy'}} às {{prod.data | date: 'HH:mm'}}
+            </small></p>
+
+          <a [routerLink]="['/postagemEdit', prod.id]" class="text-info mr-3" href="">Editar</a>
+          <a [routerLink]="['/postagemDelete', prod.id]" class="text-danger" href="">Apagar</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="novaPostagem" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="TituloModalCentralizado">Novo item!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="item">item</label>
+          <textarea name="item" id="item" class="form-control" rows="1" [(ngModel)]="postagem.item"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-success" (click)="publicar()" data-bs-dismiss="modal">
+          Publicar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,6 @@
 package br.com.mybreakfast.cafeDaManha.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.mybreakfast.cafeDaManha.model.Postagem;
 import br.com.mybreakfast.cafeDaManha.repository.PostagemRepository;
-import br.com.mybreakfast.cafeDaManha.service.PostagemService;
 
 @RestController
 @RequestMapping("/postagem")
@@ -28,9 +26,6 @@ public class PostagemController {
 	@Autowired
 	private PostagemRepository postagemRepository;
 	
-	@Autowired
-	private PostagemService postagemService;
-
 	@GetMapping
 	public ResponseEntity<List<Postagem>> GetAll() {
 		return ResponseEntity.ok(postagemRepository.findAll());
@@ -44,12 +39,7 @@ public class PostagemController {
 
 	@PostMapping
 	public ResponseEntity<Postagem> postPostagem(@RequestBody Postagem postagem) {
-		Optional<Postagem> postagemResp = postagemService.filtrarPostagemPeloId(postagem);
-		try {
-			return ResponseEntity.ok(postagemResp.get());
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 	}
 
 	@PutMapping
