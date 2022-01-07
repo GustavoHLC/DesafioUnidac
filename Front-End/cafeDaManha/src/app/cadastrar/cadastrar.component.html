@@ -4,31 +4,31 @@
     <div class="col-md-6 mt-5 mb-5">
       <div class="row d-flex justify-content-center">
         <div class="col-md-10">
-          <h1 class="text-center">Cadastro</h1>
-          <div class="form-group text-center">
-            <p><label for="nome">Nome</label></p>
-            <p><input type="form-control" type="text" name="nome" id="nome" placeholder="Seu nome"></p>
+          <h1 class="text-center">Cadastrar</h1>
+          <div class="form-group mb-3">
+            <label for="nome">nome</label>
+            <input [(ngModel)]='usuario.nome' class="form-control" type="text" name="nome" id="nome" placeholder="Seu nome">
           </div>
-          <div class="form-group text-center">
-            <p><label for="cpf">CPF(com pontos e traço)</label></p>
-            <p><input type="form-control" type="text" name="cpf" id="cpf" placeholder="Seu CPF"></p>
+          <div class="form-group mb-3">
+            <label for="cpf">CPF(com pontos e traço)</label>
+            <input [(ngModel)]='usuario.cpf' class="form-control" type="text" name="cpf" id="cpf" placeholder="Seu CPF">
           </div>
-          <div class="form-group text-center">
-            <p><label for="senha">Senha</label></p>
-            <p><input type="form-control" type="password" name="senha" id="senha" placeholder="Sua senha"></p>
+          <div class="form-group mb-3">
+            <label for="senha">Senha</label>
+            <input (input)="confirmSenha($event)" class="form-control" type="password" name="senha" id="senha" placeholder="Sua senha">
           </div>
-          <div class="form-group text-center">
-            <p><label for="confirmSenha">Confirmar Senha</label></p>
-            <p><input type="form-control" type="password" name="confirmSenha" id="confirmSenha" placeholder="Confirme sua senha"></p>
+          <div class="form-group mb-3">
+            <label for="confirmSenha">Confirmar Senha</label>
+            <input [(ngModel)]='usuario.senha' class="form-control" type="password" name="confirmSenha" id="confirmSenha" placeholder="Confirme sua senha">
           </div>
-          <div class="form-group text-center">
-            <p><label for="foto">Link da foto</label></p>
-            <p><input type="form-control" type="text" name="foto" id="foto" placeholder="Link da sua foto"></p>
+          <div class="form-group mb-4">
+            <label for="foto">Link da foto</label>
+            <input [(ngModel)]='usuario.foto' class="form-control" type="text" name="foto" id="foto" placeholder="Link da sua foto">
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <button type="submit" class="btn btn-danger mr-4" routerLink="/entrar">cancelar</button>
-          <button type="submit" class="btn btn-success">Cadastrar</button>
+          <button type="submit" class="btn btn-danger mr-12" routerLink="/entrar">cancelar</button>
+          <button type="submit" class="btn btn-success" (click)="cadastrar()">Cadastrar</button>
         </div>
       </div>
     </div>

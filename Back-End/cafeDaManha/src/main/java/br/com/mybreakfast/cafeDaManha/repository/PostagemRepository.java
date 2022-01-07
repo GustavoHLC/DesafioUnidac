@@ -15,7 +15,7 @@ import br.com.mybreakfast.cafeDaManha.model.Postagem;
 @Transactional(readOnly = true)
 public interface PostagemRepository extends JpaRepository<Postagem, Long> {
 	
-	public List <Postagem> findAllByItemContainingIgnoreCase (String titulo);
+	public List <Postagem> findAllByItemContainingIgnoreCase (String item);
 	
 	public Optional<Postagem> findByItem(String item);
 	

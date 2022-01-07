@@ -60,25 +60,26 @@ public class UsuarioService {
 		Optional<Usuario> usuario = usuarioRepository.findByCpf(usuarioLogin.get().getCpf());
 
 		if (usuario.isPresent()) {
-
 			if (encoder.matches(usuarioLogin.get().getSenha(), usuario.get().getSenha())) {
 
 				String auth = usuarioLogin.get().getCpf() + ":" + usuarioLogin.get().getSenha();
 				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
 				String authHeader = "Basic " + new String(encodedAuth);
 
-				usuarioLogin.get().setToken(authHeader);
 				usuarioLogin.get().setId(usuario.get().getId());
-				usuarioLogin.get().setCpf(usuario.get().getCpf());
-				usuarioLogin.get().setFoto(usuario.get().getFoto());
+				usuarioLogin.get().setNome(usuario.get().getNome());
 				usuarioLogin.get().setSenha(usuario.get().getSenha());
+				usuarioLogin.get().setFoto(usuario.get().getFoto());
+				usuarioLogin.get().setToken(authHeader);
 
 				return usuarioLogin;
 
 			}
 		}
-
-		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos", null);
+		
+		throw new ResponseStatusException(
+				HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos!", null);
+		
 	}
 
 }

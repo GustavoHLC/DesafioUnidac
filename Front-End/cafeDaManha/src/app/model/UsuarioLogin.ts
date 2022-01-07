@@ -4,5 +4,5 @@ export class UsuarioLogin{
   public cpf: string
   public senha: string
   public foto: string
-
+  public token: string
 }
